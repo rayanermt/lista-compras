@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Compras</title>
+    <script src="https://kit.fontawesome.com/e676755a76.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="./styles/reset.css">
+    <link rel="stylesheet" href="./styles/style.css">
+    <script src="./script.js" defer></script>
+</head>
+<body>
+    <div class="black-overlay hidden"> </div>
+    <header class="app-header">
+        <h1 class="header__logo">Minha<span class="header__logo-bold">Feira</span></h1>
+    </header>
+    <section class="app-body">
+        <button type="button" class="app__add-new-product">Adiconar novo Produto</button>
+        <!-- Formulário escondido para inserir novo produto -->
+        <form class="form-add-product hidden">
+            <div class="form-add-product__wrapper">
+                <h2 class="form-add-product__header">Adicionar novo produto no carrinho</h2>
+                <div class="form-add-product__product-info-wrapper">
+                    <label class="form-label" for="product-name">Nome do produto</label>
+                    <input type="text" id="product-name" required>
+                    <br>
+                    <label class="form-label" for="product-un-price" >Preço un</label><br>
+                    <input type="number" id="product-un-price" step="0.01">
+                     <br>
+                     <label class="form-label" for="product-quantity" step="1" placeholder="1">Quantidade</label><br>
+                     <input type="number" id="product-quantity">
+                 </div>
+                </div>
+                <button type="submit" class="form-add-product__btn-add">Adicionar</button>
+                <button type="reset" class="form-add-product__btn-cancel">Cancelar</button>
+        </form>
+        
+        <ul class="product-list">
+             <li class="product-list__item">
+                <input type="radio" class="product-list__radio">
+                <div class="product-list__item-info-container">
+                    <h3 class="product-list__item-name">Condicionador Monangea</h3>
+                    <span class="product-list__item-un-price">50,00</span>
+                    <div class="product-list__buttons-wrapper">
+                        <button class="product-list__button btn-item-edit"><i class="fa-solid fa-pen"></i></button>
+                        <button class="product-list__button btn-item-remove"><i class="fa-solid fa-trash"></i></button>
+                        <!-- Categoria -->
+                    </div>
+                </div>
+                <div class="product-list__item-subtotal-container">
+                    <input type="number" class="product-list__item-quantity">
+                    <span class="product-list__item-subtotal">50,00</span>
+                </div>
+             </li>
+        </ul>
+    </section>
+    <!-- Mostra os valores totais -->
+   <section class="total-price-frame">
+        <div class="total-price__wrapper">
+            <h3 class="total-price__label">Total:</h3>
+            <span class="total-price__value">00,00</span>
+        </div>
+   </section>
+</body>
+</html>
