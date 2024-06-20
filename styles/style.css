@@ -12,7 +12,7 @@
     display: none;
 }
 
-.black-overlay {
+.dark-overlay {
     background-color: rgba(0, 0, 0, 0.8);
     width: 100%;
     height: 100%;
@@ -82,7 +82,7 @@
     color: turquoise;
 }
 
-.app__add-new-product {
+.home__add-product-btn {
     display: block;
     background-color: none;
     border: none;
@@ -93,7 +93,7 @@
 }
 
 /* Form for adding new product */
-.form-add-product {
+.product-form {
     gap: 2em;
     padding: 2em;
     border-radius: 6px;
@@ -106,7 +106,7 @@
 }
 
 /* Product item card */
-.product-list__item {
+.product-card {
     box-sizing: border-box;
     background-color: var(--color-main-light);
     display: flex;
@@ -116,46 +116,48 @@
     padding: 0.8em 1em;
     margin: 1.3em auto;
     position: relative;
+
+    radio {
+        height: 2em;
+        width: 2em;
+        margin: auto 1em;
+        border: 0;
+    }
+
+    h3 {
+        font-size: 16px;
+    }
+
+    .product-info-container {
+        padding-right: 0.3em;
+        word-wrap: break-word;
+        width: 60%;
+    }
+
+    .product-un-price {
+        font-size: 14px;
+        display: block;
+        margin: 1em 0;
+        color: grey;
+    }
 }
 
-.product-list__radio {
-    height: 2em;
-    width: 2em;
-    margin: auto 1em;
-    border: 0;
-}
-
-.product-list__item-info-container {
-    padding-right: 0.3em;
-    word-wrap: break-word;
-    width: 60%;
-}
-
-.product-list__item-name {
-    font-size: 16px;
-}
-
-.product-list__item-un-price {
-    font-size: 14px;
-    color: grey;
-}
-
-.product-list__buttons-wrapper {
+.product-card__btn-wrapper {
     display: flex;
     gap: 0.5em;
+
+    button {
+        width: 2.5em;
+        height: 2.5em;
+        padding: 0.2em;
+        border: solid 1px var(--color-emphasis);
+        border-radius: 3px;
+        background-color: none;
+        color: var(--color-emphasis);
+    }
 }
 
-.product-list__button {
-    width: 2.5em;
-    height: 2.5em;
-    padding: 0.2em;
-    border: solid 1px var(--color-emphasis);
-    border-radius: 3px;
-    background-color: none;
-    color: var(--color-emphasis);
-}
-
-.product-list__item-subtotal-container {
+.product-subtotal-container {
     background-color: white;
     position: absolute;
     right: 0;
@@ -166,13 +168,13 @@
     padding: 1.3em;
 }
 
-.product-list__item-quantity {
+.product-quantity {
     width: 100%;
     height: 3em;
     margin: 0 auto;
 }
 
-.product-list__item-subtotal {
+.product-subtotal {
     display: block;
     font-weight: 600;
     color: var(--color-emphasis);

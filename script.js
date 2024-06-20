@@ -1,78 +1,56 @@
 const arrProducts = JSON.parse(localStorage.getItem("products")) || [];    // Vetor de objetos
 
 const ulProductsList = document.querySelector(".product-list");
-const btnAddProduct = document.querySelector(".app__add-new-product");
-const formAddProduct = document.querySelector(".form-add-product");
+const btnAddProduct = document.querySelector(".home__add-product-btn");
+const formNewProduct = document.querySelector(".product-form");
 
-const blackOverlay = document.querySelector(".black-overlay");
+const btnQuantityIncrement = document.querySelectorAll(".btn-quantity");
 
-// Adicionar novo ítem na lista de produtos, com as informações digitadas no formulário
+function test() {
+    let template = document.querySelector("#test-template");
+    let newEl = template.content.cloneNode(true);
+    ulProductsList.appendChild(newEl);
+}
 
+// Atualizar o localStorage
 function updateLocalStorage() {
     localStorage.setItem("products", JSON.stringify(arrProducts));
 };
 
-function showProductForm () {
-    formAddProduct.classList.toggle("hidden");
-    blackOverlay.classList.toggle("hidden");
+// Alternar visibilidade do formulário 
+function toggleForm () {
+    formNewProduct.classList.toggle("hidden");
+    document.querySelector(".dark-overlay").classList.toggle("hidden");
 };
-
-arrProducts.forEach(product => {
-    const newLi = createDOMProductItem(product);
-    ulProductsList.append(newLi);
-});
-
-// Recebe como parâmetro um único produto, cria um list item para esse produto.
-function createDOMProductItem (product) {
-    const productLi = document.createElement("li");
-    productLi.innerHTML = `
-            <li class="product-list__item">
-                    <input type="radio" class="product-list__radio">
-                    <div class="product-list__item-info-container">
-                        <h3 class="product-list__item-name">${product.name}</h3>
-                        <span class="product-list__item-un-price">R$${product.unPrice}</span>
-                        <div class="product-list__buttons-wrapper">
-                            <button class="product-list__button btn-item-edit"><i class="fa-solid fa-pen"></i></button>
-                            <button class="product-list__button btn-item-remove"><i class="fa-solid fa-trash"></i></button>
-                            <!-- Categoria -->
-                        </div>
-                    </div>
-                    <div class="product-list__item-subtotal-container">
-                        <input type="number" class="product-list__item-quantity">
-                        <span class="product-list__item-subtotal">50,00</span>
-                    </div>
-                 </li>
-        `;
-
-    return productLi;
-}
 
 // Cria e adiciona um novo objeto de produto ao vetor com todos os produtos.
 function createNewProduct () {
-    const inputName = document.querySelector("#product-name");
-    const inputUnPrice = document.querySelector("#product-un-price");
-    const inputQuantity = document.querySelector("#product-quantity");
+    const inputName = document.querySelector("#input-name");
+    const inputUnPrice = document.querySelector("#input-un-price");
+    const inputQuantity = document.querySelector("#input-quantity");
 
     const newProduct = {
         name: inputName.value,
-        unPrice: inputUnPrice.value,
-        quantity: inputQuantity.value
+        unPrice: parseFloat([inputUnPrice.value]),
+        quantity: parseInt([inputQuantity.value]),
+        subTotal: parseFloat(inputUnPrice.value * inputQuantity.value)
     };
 
-    arrProducts.push(newProduct)
-    ulProductsList.append( createDOMProductItem (newProduct) )
+    arrProducts.push(newProduct);
     console.log(newProduct);
 };
 
+// Mostra o formulário ao clicar em "Adicionar produto"
 btnAddProduct.addEventListener('click', () => {
-    showProductForm();
+    toggleForm();
 });
 
-formAddProduct.addEventListener('submit', (event) => {
+// Submissão de um novo produto pelo formulário
+formNewProduct.addEventListener('submit', (event) => {
     event.preventDefault();
     createNewProduct();
     updateLocalStorage();
-    showProductForm();
+    toggleForm();
     console.log("submit no form");
 });
 
