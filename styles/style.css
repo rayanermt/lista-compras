@@ -52,7 +52,7 @@
 }
 
 /* Total itens value */
-.total-price-frame {
+.total-price{
     background-color: white;
     padding: 1.5em 4em;
     position: fixed;
@@ -63,23 +63,23 @@
     color: black
 }
 
-.total-price__wrapper {
+.total-price-wrapper {
     border-top: 1px solid grey;
     padding-top: 1.5em;
     display: flex;
     justify-content: space-between;
-}
 
-.total-price__label {
-    font-size: 16px;
-    text-align: left;
-}
+    h3 {
+        font-size: 16px;
+        text-align: left;
+    };
 
-.total-price__value {
-    font-size: 16px;
-    font-weight: 600;
-    text-align: right;
-    color: turquoise;
+    .total-value {
+        font-size: 16px;
+        font-weight: 600;
+        text-align: right;
+        color: turquoise;
+    }
 }
 
 .home__add-product-btn {

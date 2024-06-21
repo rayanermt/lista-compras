@@ -1,10 +1,13 @@
-const arrProducts = JSON.parse(localStorage.getItem("products")) || [];    // Vetor de objetos 
+let arrProducts = JSON.parse(localStorage.getItem("products")) || [];    // Vetor de objetos 
 
 const ulProductsList = document.querySelector(".product-list");
 const btnAddProduct = document.querySelector(".home__add-product-btn");
 const formNewProduct = document.querySelector(".product-form");
 const productTemplate = document.querySelector("#li-card-template");
 const btnIncrement = document.querySelectorAll(".btn-quantity");
+
+const spnTotalValue = document.querySelector(".total-value");
+let totalValue = 0;
 
 // Template pra criar o card de cada produto
 class listItem {
@@ -22,19 +25,23 @@ class listItem {
         this.unPriceEl.textContent = `${product.unPrice}`;
 
         this.subtotalEl = this.cardElement.querySelector(".product-subtotal");
-        this.calculateSubtotal(product);
+        this.calculateSubtotal();
 
         this.btnsQuantity =  this.cardElement.querySelectorAll(".btn-quantity");
         this.btnEdit = this.cardElement.querySelector(".btn-item-edit");
+        this.btnRemove = this.cardElement.querySelector(".btn-item-remove");
 
         changeQuantity(this);
         editProduct(this);
+        removeProduct(this);
+
         return this.cardElement;
     }
 
     calculateSubtotal() {
-        this.product.subTotal = Number(this.product.unPrice * this.product.quantity);
-        this.subtotalEl.textContent = `${this.product.subTotal}`;
+        let newSubtotal = Number(this.product.unPrice * this.product.quantity).toFixed(2);
+        this.subtotalEl.textContent = `${newSubtotal}`;
+        return this.subTotal = newSubtotal;
     }
 }
 
@@ -67,31 +74,35 @@ function editProduct(product) {
                 updateLocalStorage();
             }
         });
-       
     })
-   
 }
 
-function changeQuantity(obj) {
-    let newQuantity = Number(obj.quantityEl.textContent);
+function removeProduct(listItem) {
+    listItem.btnRemove.addEventListener('click', () => {
+        const index = arrProducts.findIndex(element => element.name == listItem.product.name)
+        arrProducts = arrProducts.splice(1, index);
+    });
+}
 
-    obj.btnsQuantity.forEach((btn) => {
+function changeQuantity(listItem) {
+    let newQuantity = Number(listItem.quantityEl.textContent);
+
+    listItem.btnsQuantity.forEach((btn) => {
         btn.addEventListener('click', () => {
-            if(btn.name == "-"  && obj.product.quantity > 1) {
+            if(btn.name == "-"  && listItem.product.quantity > 1) {
                 newQuantity--;
-                obj.product.quantity--;
+                listItem.product.quantity--;
             } else if (btn.name == "+") {
                 newQuantity++;
-                obj.product.quantity++;
+                listItem.product.quantity++;
             } 
             else {
                 // TODO: Adicionar alerta mais user-friendly
                 alert("Você não pode ter menos de um item.");
             }
-            obj.product.subTotal = obj.calculateSubtotal();
+            listItem.product.subTotal = listItem.calculateSubtotal();
 
-            obj.quantityEl.textContent = (`${newQuantity}`); 
-            obj.subtotalEl.textContent = (`R$ ${obj.product.subTotal.toFixed(2)}`);
+            listItem.quantityEl.textContent = (`${newQuantity}`); 
             updateLocalStorage();
         });
     });
@@ -99,7 +110,16 @@ function changeQuantity(obj) {
 
 // Atualizar o localStorage
 function updateLocalStorage() {
+
+    arrProducts.forEach((product) => {
+        totalValue += product.subTotal;
+        console.log(`subtotal do produto: ${product.subTotal}`);
+        console.log(typeof(product.subTotal));
+    })
+
+    localStorage.setItem("totalValue", totalValue)
     localStorage.setItem("products", JSON.stringify(arrProducts));
+
 };
 
 // Alternar visibilidade do formulário 
