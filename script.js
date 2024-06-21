@@ -1,66 +1,92 @@
-const arrProducts = JSON.parse(localStorage.getItem("products")) || [];    // Vetor de objetos
+const arrProducts = JSON.parse(localStorage.getItem("products")) || [];    // Vetor de objetos 
+
 const ulProductsList = document.querySelector(".product-list");
 const btnAddProduct = document.querySelector(".home__add-product-btn");
 const formNewProduct = document.querySelector(".product-form");
 const productTemplate = document.querySelector("#li-card-template");
 const btnIncrement = document.querySelectorAll(".btn-quantity");
 
-arrProducts.forEach(element => {
-    addProductCard(element);
+// Template pra criar o card de cada produto
+class listItem {
+    constructor (product) {
+        this.cardElement = productTemplate.content.cloneNode(true),
+        this.product = product;
+
+        this.nameEl = this.cardElement.querySelector(".product-name");
+        this.nameEl.textContent = `${product.name}`;
+
+        this.quantityEl = this.cardElement.querySelector(".product-quantity");
+        this.quantityEl.textContent = `${product.quantity}`;
+
+        this.unPriceEl = this.cardElement.querySelector(".product-un-price");
+        this.unPriceEl.textContent = `${product.unPrice}`;
+
+        this.subtotalEl = this.cardElement.querySelector(".product-subtotal");
+        this.subtotalEl.textContent = `${product.subTotal}`;
+
+        this.btnsQuantity =  this.cardElement.querySelectorAll(".btn-quantity");
+        this.btnEdit = this.cardElement.querySelector(".btn-item-edit");
+
+        changeQuantity(this);
+        editProduct(this);
+        return this.cardElement;
+    }
+}
+
+//Renderizar todos os produtos da lista
+arrProducts.forEach((product) => {
+    let productCard = new listItem(product)
+    ulProductsList.append(productCard);
 });
 
-function test() {
-    let template = document.querySelector("#test-template");
-    let newEl = template.content.cloneNode(true);
-    ulProductsList.appendChild(newEl);
+function editProduct(product) {
+    product.btnEdit.addEventListener('click', () => {
+        product.nameEl.toggleAttribute("contentEditable");
+        product.unPriceEl.toggleAttribute("contentEditable");
+
+        product.nameEl.addEventListener("keydown", (key) => {
+            if (key.key == "Enter")//space
+            {
+                product.nameEl.removeAttribute("contentEditable");
+                product.product.name = product.nameEl.textContent;
+                updateLocalStorage();
+            }
+        });
+
+        product.unPriceEl.addEventListener("keydown", (key) => {
+            if (key.key == "Enter")//space
+            {
+                product.unPriceEl.removeAttribute("contentEditable");
+                product.product.unPrice = Number(product.unPriceEl.textContent.tofixed(2));
+                updateLocalStorage();
+            }
+        });
+    })
+   
 }
 
-// Adiciona mais um produto na lista, a partir de um template
-function addProductCard(product) {
-    let newLi = productTemplate.content.cloneNode(true);
-
-    let nameEl =  newLi.querySelector(".product-name");
-    let quantityEl = newLi.querySelector(".product-quantity")
-    let unPriceEl = newLi.querySelector(".product-un-price");
-    let subtotalEl =  newLi.querySelector(".product-subtotal");
-    let btnsQuantity = newLi.querySelectorAll(".btn-quantity");
-    
-    nameEl.textContent = `${product.name}`;
-    unPriceEl.textContent = `R$ ${product.unPrice.toFixed(2)}`;
-    quantityEl.textContent = `${product.quantity}`;
-    subtotalEl.textContent = `R$ ${product.subTotal.toFixed(2)}`;
-    
-    incrementButton(btnsQuantity, quantityEl, subtotalEl, product);
-
-    ulProductsList.appendChild(newLi);
-}
-
-// Botões para incrementar quantiade
-
-function incrementButton(btnsQuantity, quantityEl, subtotalEl, product) {
-    
-    let newQuantity = Number(quantityEl.textContent);
+function changeQuantity(obj) {
+    let newQuantity = Number(obj.quantityEl.textContent);
     let newSubtotal;
 
-    btnsQuantity.forEach((btn) => {
+    obj.btnsQuantity.forEach((btn) => {
         btn.addEventListener('click', () => {
-            switch (btn.name) {
-                case "-":
-                    newQuantity--;
-                    product.quantity--;
-                    break;
-
-                case "+":
-                    newQuantity++;
-                    product.quantity++;
-                    break;
+            if(btn.name == "-"  && obj.product.quantity > 1) {
+                newQuantity--;
+                obj.product.quantity--;
+            } else if (btn.name == "+") {
+                newQuantity++;
+                obj.product.quantity++;
+            } 
+            else {
+                // TODO: Adicionar alerta mais user-friendly
+                alert("Você não pode ter menos de um item.");
             }
-            
-            newSubtotal = (product.unPrice * product.quantity);
-            product.subTotal = newSubtotal;
+            newSubtotal = (obj.product.unPrice * obj.product.quantity);
+            obj.product.subTotal = newSubtotal;
 
-            quantityEl.textContent = (`${newQuantity}`); 
-            subtotalEl.textContent = (`R$ ${newSubtotal.toFixed(2)}`);
+            obj.quantityEl.textContent = (`${newQuantity}`); 
+            obj.subtotalEl.textContent = (`R$ ${newSubtotal.toFixed(2)}`);
             updateLocalStorage();
         });
     });
@@ -78,7 +104,7 @@ function toggleForm () {
 };
 
 // Cria e adiciona um novo objeto de produto ao vetor com todos os produtos.
-function createNewProduct () {
+function createNewProduct ( ) {
     const inputName = document.querySelector("#input-name");
     const inputUnPrice = document.querySelector("#input-un-price");
     const inputQuantity = document.querySelector("#input-quantity");
@@ -88,16 +114,12 @@ function createNewProduct () {
         unPrice: parseFloat([inputUnPrice.value]),
         quantity: parseInt([inputQuantity.value]),
         subTotal: parseFloat(inputUnPrice.value * inputQuantity.value),
-
-        decreaseQuantity() {
-            this.quantity -= 1;
-            this.subTotal = parseFloat(inputUnPrice.value * inputQuantity.value);
-        }
     };
 
+    let newListItem = new listItem(newProduct);
+    ulProductsList.append(newListItem);
     arrProducts.push(newProduct);
-    addProductCard(newProduct);
-    console.log(newProduct);
+    updateLocalStorage();
 };
 
 // Mostra o formulário ao clicar em "Adicionar produto"
@@ -109,9 +131,7 @@ btnAddProduct.addEventListener('click', () => {
 formNewProduct.addEventListener('submit', (event) => {
     event.preventDefault();
     createNewProduct();
-    updateLocalStorage();
     toggleForm();
-    console.log("submit no form");
 });
 
 document.querySelector("#btn-cancel").addEventListener('click', () => toggleForm());

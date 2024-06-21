@@ -49,15 +49,16 @@
                     <input type="text" id="input-name" required>
                     <br>
                     <label for="product-un-price" >Preço un</label><br>
-                    <input type="number" id="input-un-price" step="0.01">
+                    <input type="number" id="input-un-price" step="0.01" min="0.01">
                      <br>
-                     <label for="product-quantity" step="1" placeholder="1" min="1">Quantidade</label><br>
-                     <input type="number" id="input-quantity">
+                     <label for="product-quantity">Quantidade</label><br>
+                     <input type="number" id="input-quantity" step="1" placeholder="1" min="1">
                  </div>
                 </div>
                 <button type="submit" id="btn-add">Adicionar</button>
                 <button type="reset" id="btn-cancel">Cancelar</button>
         </form>
+ 
     </section>
 
     <!-- Mostra os valores totais -->
