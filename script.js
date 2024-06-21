@@ -22,7 +22,7 @@ class listItem {
         this.unPriceEl.textContent = `${product.unPrice}`;
 
         this.subtotalEl = this.cardElement.querySelector(".product-subtotal");
-        this.subtotalEl.textContent = `${product.subTotal}`;
+        this.calculateSubtotal(product);
 
         this.btnsQuantity =  this.cardElement.querySelectorAll(".btn-quantity");
         this.btnEdit = this.cardElement.querySelector(".btn-item-edit");
@@ -30,6 +30,11 @@ class listItem {
         changeQuantity(this);
         editProduct(this);
         return this.cardElement;
+    }
+
+    calculateSubtotal() {
+        this.product.subTotal = Number(this.product.unPrice * this.product.quantity);
+        this.subtotalEl.textContent = `${this.product.subTotal}`;
     }
 }
 
@@ -57,17 +62,18 @@ function editProduct(product) {
             if (key.key == "Enter")//space
             {
                 product.unPriceEl.removeAttribute("contentEditable");
-                product.product.unPrice = Number(product.unPriceEl.textContent.tofixed(2));
+                product.product.unPrice = Number(product.unPriceEl.textContent);
+                product.calculateSubtotal(product)
                 updateLocalStorage();
             }
         });
+       
     })
    
 }
 
 function changeQuantity(obj) {
     let newQuantity = Number(obj.quantityEl.textContent);
-    let newSubtotal;
 
     obj.btnsQuantity.forEach((btn) => {
         btn.addEventListener('click', () => {
@@ -82,11 +88,10 @@ function changeQuantity(obj) {
                 // TODO: Adicionar alerta mais user-friendly
                 alert("Você não pode ter menos de um item.");
             }
-            newSubtotal = (obj.product.unPrice * obj.product.quantity);
-            obj.product.subTotal = newSubtotal;
+            obj.product.subTotal = obj.calculateSubtotal();
 
             obj.quantityEl.textContent = (`${newQuantity}`); 
-            obj.subtotalEl.textContent = (`R$ ${newSubtotal.toFixed(2)}`);
+            obj.subtotalEl.textContent = (`R$ ${obj.product.subTotal.toFixed(2)}`);
             updateLocalStorage();
         });
     });
