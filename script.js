@@ -1,15 +1,25 @@
 const arrProducts = JSON.parse(localStorage.getItem("products")) || [];    // Vetor de objetos
-
 const ulProductsList = document.querySelector(".product-list");
 const btnAddProduct = document.querySelector(".home__add-product-btn");
 const formNewProduct = document.querySelector(".product-form");
-
+const productTemplate = document.querySelector("#li-card-template");
 const btnQuantityIncrement = document.querySelectorAll(".btn-quantity");
 
 function test() {
     let template = document.querySelector("#test-template");
     let newEl = template.content.cloneNode(true);
     ulProductsList.appendChild(newEl);
+}
+
+// Adiciona mais um produto na lista, a partir de um template
+function addProductCard(product) {
+    let newLi = productTemplate.content.cloneNode(true);
+
+    newLi.querySelector("h3").textContent = `${product.name}`;
+    newLi.querySelector(".product-un-price").textContent = `R$ ${product.unPrice.toFixed(2)}`;
+    newLi.querySelector(".product-subtotal").textContent = `R$ ${product.subTotal.toFixed(2)}`;
+
+    ulProductsList.appendChild(newLi);
 }
 
 // Atualizar o localStorage
@@ -37,6 +47,7 @@ function createNewProduct () {
     };
 
     arrProducts.push(newProduct);
+    addProductCard(newProduct);
     console.log(newProduct);
 };
 
@@ -54,3 +65,4 @@ formNewProduct.addEventListener('submit', (event) => {
     console.log("submit no form");
 });
 
+document.querySelector("#btn-cancel").addEventListener('click', () => toggleForm());
