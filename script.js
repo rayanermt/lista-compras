@@ -3,7 +3,11 @@ const ulProductsList = document.querySelector(".product-list");
 const btnAddProduct = document.querySelector(".home__add-product-btn");
 const formNewProduct = document.querySelector(".product-form");
 const productTemplate = document.querySelector("#li-card-template");
-const btnQuantityIncrement = document.querySelectorAll(".btn-quantity");
+const btnIncrement = document.querySelectorAll(".btn-quantity");
+
+arrProducts.forEach(element => {
+    addProductCard(element);
+});
 
 function test() {
     let template = document.querySelector("#test-template");
@@ -15,11 +19,51 @@ function test() {
 function addProductCard(product) {
     let newLi = productTemplate.content.cloneNode(true);
 
-    newLi.querySelector("h3").textContent = `${product.name}`;
-    newLi.querySelector(".product-un-price").textContent = `R$ ${product.unPrice.toFixed(2)}`;
-    newLi.querySelector(".product-subtotal").textContent = `R$ ${product.subTotal.toFixed(2)}`;
+    let nameEl =  newLi.querySelector(".product-name");
+    let quantityEl = newLi.querySelector(".product-quantity")
+    let unPriceEl = newLi.querySelector(".product-un-price");
+    let subtotalEl =  newLi.querySelector(".product-subtotal");
+    let btnsQuantity = newLi.querySelectorAll(".btn-quantity");
+    
+    nameEl.textContent = `${product.name}`;
+    unPriceEl.textContent = `R$ ${product.unPrice.toFixed(2)}`;
+    quantityEl.textContent = `${product.quantity}`;
+    subtotalEl.textContent = `R$ ${product.subTotal.toFixed(2)}`;
+    
+    incrementButton(btnsQuantity, quantityEl, subtotalEl, product);
 
     ulProductsList.appendChild(newLi);
+}
+
+// Botões para incrementar quantiade
+
+function incrementButton(btnsQuantity, quantityEl, subtotalEl, product) {
+    
+    let newQuantity = Number(quantityEl.textContent);
+    let newSubtotal;
+
+    btnsQuantity.forEach((btn) => {
+        btn.addEventListener('click', () => {
+            switch (btn.name) {
+                case "-":
+                    newQuantity--;
+                    product.quantity--;
+                    break;
+
+                case "+":
+                    newQuantity++;
+                    product.quantity++;
+                    break;
+            }
+            
+            newSubtotal = (product.unPrice * product.quantity);
+            product.subTotal = newSubtotal;
+
+            quantityEl.textContent = (`${newQuantity}`); 
+            subtotalEl.textContent = (`R$ ${newSubtotal.toFixed(2)}`);
+            updateLocalStorage();
+        });
+    });
 }
 
 // Atualizar o localStorage
@@ -43,7 +87,12 @@ function createNewProduct () {
         name: inputName.value,
         unPrice: parseFloat([inputUnPrice.value]),
         quantity: parseInt([inputQuantity.value]),
-        subTotal: parseFloat(inputUnPrice.value * inputQuantity.value)
+        subTotal: parseFloat(inputUnPrice.value * inputQuantity.value),
+
+        decreaseQuantity() {
+            this.quantity -= 1;
+            this.subTotal = parseFloat(inputUnPrice.value * inputQuantity.value);
+        }
     };
 
     arrProducts.push(newProduct);
