@@ -181,9 +181,6 @@
     }
 }
 
-
-
-
 .form__field-wrapper {
     display: flex;
     align-items: center;
@@ -197,18 +194,19 @@
     box-sizing: border-box;
     background-color: var(--color-main-light);
     display: flex;
+    justify-content: space-between;
     border-radius: 6px;
     width: 90%;
-    padding: 0.8em 0.3em;
     margin: 1.2em auto;
     position: relative;
     border: 1px solid var(--color-main-light);
 
-    input {
+    input[type="radio"] {
         height: 1.8em;
         width: 1.8em;
         margin: auto 1.3em;
         border: 0;
+        min-width: 24px;
     }
 
     h3 {
@@ -217,9 +215,10 @@
 }
 
 .product-info-container {
+    padding: 0.5em;
     padding-right: 0.3em;
     word-wrap: break-word;
-    width: 60%;
+    flex-grow: 2;
 }
 
 .product-un-price {
@@ -232,33 +231,29 @@
 .product-card__btn-wrapper {
     display: flex;
     gap: 0.5em;
+    justify-content: left;
 
     button {
-        width: 2.8em;
-        height: 2.8em;
-        padding: 0.2em;
-        border: solid 1px var(--color-emphasis);
+        font-size: 1em;
+        border: none;
         border-radius: 5px;
         background-color: var(--color-main-light);
         color: var(--color-emphasis);
     }
 
     button:hover {
-        background-color: var(--color-main-medium);
+        color: var(--color-main-medium);
         cursor: pointer;
     }
 }
 
 .product-subtotal-container {
     background-color: white;
-    position: absolute;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    width: 25%;
+    min-width: 30%;
     border-radius: 6px;
-    padding: 1.3em;
+    padding: 0.5em;
     border: 1px solid var(--color-main-light);
+    box-sizing: border-box;
 }
 
 .product-quantity-wrapper {
