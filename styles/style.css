@@ -12,7 +12,7 @@
 }
 
 .hidden {
-    display: none;
+    display: none !important;
 }
 
 .dark-overlay {
@@ -224,7 +224,7 @@
 .product-un-price {
     font-size: 14px;
     display: block;
-    margin: 0.5em 0;
+    margin-top: 0.5em;
     color: grey;
 }
 
@@ -232,6 +232,7 @@
     display: flex;
     gap: 0.5em;
     justify-content: left;
+    margin-top: 0.5em;
 
     button {
         font-size: 1em;
@@ -260,6 +261,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;  
+    align-content: center;
 }
 .product-quantity {
     width: 100%;

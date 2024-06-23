@@ -7,7 +7,19 @@ const productTemplate = document.querySelector("#li-card-template");
 const btnIncrement = document.querySelectorAll(".btn-quantity");
 
 const spnTotalValue = document.querySelector(".total-value");
-let totalValue = 0;
+let totalValue;
+
+calculateTotal();
+
+// Calulcar valor total dos produtos
+function calculateTotal() {
+    totalValue = 0;
+    arrProducts.forEach((product) => {
+        totalValue += product.subTotal;
+    })
+
+    spnTotalValue.textContent = `${totalValue.toFixed(2)}`;
+}
 
 // Template pra criar o card de cada produto
 class listItem {
@@ -16,16 +28,26 @@ class listItem {
         this.product = product;
 
         this.nameEl = this.cardElement.querySelector(".product-name");
-        this.nameEl.textContent = `${product.name}`;
-
         this.quantityEl = this.cardElement.querySelector(".product-quantity");
+        this.unPriceEl = this.cardElement.querySelector(".product-un-price");
+        this.subtotalEl = this.cardElement.querySelector(".product-subtotal");
+        
+        this.nameEl.textContent = `${product.name}`;
         this.quantityEl.textContent = `${product.quantity}`;
 
-        this.unPriceEl = this.cardElement.querySelector(".product-un-price");
-        this.unPriceEl.textContent = `${product.unPrice}`;
-
-        this.subtotalEl = this.cardElement.querySelector(".product-subtotal");
-        this.calculateSubtotal();
+        // Ocultas informações vazias automaticamente
+        if (isFinite(product.unPrice)) {
+            console.log("não nulo")
+            this.unPriceEl.textContent = `${product.unPrice}`;
+            this.calculateSubtotal();
+            this.unPriceEl.classList.remove("hidden");
+            this.subtotalEl.classList.remove("hidden");
+        } else {
+            this.unPriceEl.textContent = "0.00";
+            this.subtotalEl.textContent = "0.00";
+        }
+        
+        
 
         this.btnsQuantity =  this.cardElement.querySelectorAll(".btn-quantity");
         this.btnEdit = this.cardElement.querySelector(".btn-item-edit");
@@ -45,38 +67,45 @@ class listItem {
     }
 }
 
+
 //Renderizar todos os produtos da lista
 arrProducts.forEach((product) => {
     let productCard = new listItem(product)
     ulProductsList.append(productCard);
 });
 
-function editProduct(product) {
-    product.btnEdit.addEventListener('click', () => {
-        product.nameEl.toggleAttribute("contentEditable");
-        product.unPriceEl.toggleAttribute("contentEditable");
+// Editar nome e valor do produto
+function editProduct(listItem) {
+    listItem.btnEdit.addEventListener('click', () => {
+        listItem.unPriceEl.classList.remove("hidden");
+        listItem.subtotalEl.classList.remove("hidden");
 
-        product.nameEl.addEventListener("keydown", (key) => {
+        listItem.nameEl.toggleAttribute("contentEditable");
+        listItem.unPriceEl.toggleAttribute("contentEditable");
+
+        listItem.nameEl.addEventListener("keydown", (key) => {
             if (key.key == "Enter")//space
             {
-                product.nameEl.removeAttribute("contentEditable");
-                product.product.name = product.nameEl.textContent;
+                listItem.nameEl.removeAttribute("contentEditable");
+                listItem.product.name = product.nameEl.textContent;
                 updateLocalStorage();
             }
         });
 
-        product.unPriceEl.addEventListener("keydown", (key) => {
+        listItem.unPriceEl.addEventListener("keydown", (key) => {
             if (key.key == "Enter")//space
             {
-                product.unPriceEl.removeAttribute("contentEditable");
-                product.product.unPrice = Number(product.unPriceEl.textContent);
-                product.calculateSubtotal(product)
+                listItem.unPriceEl.removeAttribute("contentEditable");
+                listItem.product.unPrice = Number(listItem.unPriceEl.textContent);
+                listItem.product.subTotal = listItem.calculateSubtotal()
+                calculateTotal()
                 updateLocalStorage();
             }
         });
     })
 }
 
+// remover produto da lista
 function removeProduct(listItem) {
     listItem.btnRemove.addEventListener('click', () => {
         const index = arrProducts.findIndex(element => element.name == listItem.product.name)
@@ -85,10 +114,12 @@ function removeProduct(listItem) {
 }
 
 function changeQuantity(listItem) {
+    
     let newQuantity = Number(listItem.quantityEl.textContent);
 
     listItem.btnsQuantity.forEach((btn) => {
         btn.addEventListener('click', () => {
+            debugger
             if(btn.name == "-"  && listItem.product.quantity > 1) {
                 newQuantity--;
                 listItem.product.quantity--;
@@ -110,14 +141,10 @@ function changeQuantity(listItem) {
 
 // Atualizar o localStorage
 function updateLocalStorage() {
-
-    arrProducts.forEach((product) => {
-        totalValue += product.subTotal;
-        console.log(totalValue)
-    })
-
-    localStorage.setItem("totalValue", totalValue)
+    
+    calculateTotal();
     localStorage.setItem("products", JSON.stringify(arrProducts));
+    localStorage.setItem("totalValue", totalValue)
 
 };
 
