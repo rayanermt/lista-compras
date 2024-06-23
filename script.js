@@ -93,11 +93,15 @@ function editProduct(listItem) {
     });
 };
 
-// remover produto da lista
+// Remover produto da lista
 function removeProduct(listItem) {
-    listItem.btnRemove.addEventListener('click', () => {
-        const index = arrProducts.findIndex(element => element.name == listItem.product.name)
-        arrProducts = arrProducts.splice(1, index);
+    let btnRemove = listItem.btnRemove;
+
+    btnRemove.addEventListener('click', () => {
+        let index = arrProducts.indexOf(listItem.product);
+        arrProducts.splice(index, 1);
+        btnRemove.closest(".product-card").remove();
+        updateLocalStorage();
     });
 };
 
