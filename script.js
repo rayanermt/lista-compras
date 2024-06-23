@@ -41,7 +41,7 @@ class listItem {
     calculateSubtotal() {
         let newSubtotal = Number(this.product.unPrice * this.product.quantity).toFixed(2);
         this.subtotalEl.textContent = `${newSubtotal}`;
-        return this.subTotal = newSubtotal;
+        return this.subTotal = Number(newSubtotal);
     }
 }
 
@@ -113,8 +113,7 @@ function updateLocalStorage() {
 
     arrProducts.forEach((product) => {
         totalValue += product.subTotal;
-        console.log(`subtotal do produto: ${product.subTotal}`);
-        console.log(typeof(product.subTotal));
+        console.log(totalValue)
     })
 
     localStorage.setItem("totalValue", totalValue)

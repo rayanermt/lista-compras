@@ -15,64 +15,43 @@
         <h1 class="header__logo">Minha<span class="header__logo-bold">Feira</span></h1>
     </header>
     <section class="app-body">
-        <button type="button" class="home__add-product-btn">Adiconar novo Produto</button>
+        <button type="button" class="home__add-product-btn">Adicionar produto</button>
         <!-- Formulário escondido para inserir novo produto -->
         
-        <ul class="product-list">
-             <li class="product-card">
-                <input type="radio">
-                <div class="product-info-container">
-                    <h3>Condicionador Monangea</h3>
-                    <span class="product-un-price">50,00</span>
-                    <div class="product-card__btn-wrapper">
-                        <button class="btn-item-edit"><i class="fa-solid fa-pen"></i></button>
-                        <button class="btn-item-remove"><i class="fa-solid fa-trash"></i></button>
-                        <!-- Categoria -->
-                    </div>
-                </div>
-                <div class="product-subtotal-container">
-                    <div class="product-quantity-wrapper">
-                        <button class="btn-quantity" name="-">-</button>
-                        <span class="product-quantity">1</span>
-                        <button class="btn-quantity" name="+">+</button>
-                    </div>
-                    <span class="product-subtotal">50,00</span>
-                </div>
-             </li>
-        </ul>
+        <ul class="product-list"></ul>
 
         <form class="product-form hidden">
             <div class="form__wrapper">
-                <h2>Adicionar novo produto no carrinho</h2>
+                <h2>Novo produto</h2>
                 <div class="form__info-wrapper">
-                    <label for="product-name">Nome do produto</label>
+                    <label for="product-name">Nome:</label>
                     <input type="text" id="input-name" required>
                     <br>
-                    <label for="product-un-price" >Preço un</label><br>
-                    <input type="number" id="input-un-price" step="0.01" min="0.01">
-                     <br>
-                     <label for="product-quantity">Quantidade</label><br>
-                     <input type="number" id="input-quantity" step="1" placeholder="1" min="1">
+                    <div class="form__field-wrapper">
+                        <label for="product-un-price" >Preço unitário:</label><br>
+                        <input type="number" id="input-un-price" step="0.01" min="0.01">
+                    </div>
+                    <div class="form__field-wrapper">
+                        <label for="product-quantity">Quantidade:</label><br>
+                        <input type="number" id="input-quantity" step="1" placeholder="1" min="1" required>
+                    </div>
                  </div>
-                </div>
+            </div>
+            <div class="form__button-wrapper">
                 <button type="submit" id="btn-add">Adicionar</button>
                 <button type="reset" id="btn-cancel">Cancelar</button>
+            </div>
         </form>
  
     </section>
 
     <!-- Mostra os valores totais -->
-
-    <template id="test-template">
-        <li>Hello there i'm part of a template.</li>
-    </template>
-
     <template id="li-card-template">
         <li class="product-card">
             <input type="radio">
             <div class="product-info-container">
                 <h3 class="product-name">Condicionador Monangea</h3>
-                <span class="product-un-price">50,00</span>
+                <span class="product-un-price price">50,00</span>
                 <div class="product-card__btn-wrapper">
                     <button class="btn-item-edit"><i class="fa-solid fa-pen"></i></button>
                     <button class="btn-item-remove"><i class="fa-solid fa-trash"></i></button>
@@ -85,7 +64,7 @@
                     <span class="product-quantity">1</span>
                     <button class="btn-quantity" name="+">+</button>
                 </div>
-                <span class="product-subtotal">50,00</span>
+                <span class="product-subtotal price">50,00</span>
             </div>
          </li>
     </template>
@@ -93,7 +72,7 @@
     <section class="total-price">
         <div class="total-price-wrapper">
             <h3>Total:</h3>
-            <span class="total-value">00,00</span>
+            <span class="total-value price">00,00</span>
         </div>
     </section>
 </body>
