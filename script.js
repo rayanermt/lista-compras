@@ -159,7 +159,7 @@ function createNewProduct ( ) {
     };
 
     let newListItem = new listItem(newProduct);
-    ulProductsList.append(newListItem);
+    ulProductsList.prepend(newListItem);
     arrProducts.push(newProduct);
     updateLocalStorage();
 };
@@ -167,7 +167,7 @@ function createNewProduct ( ) {
 //Renderizar todos os produtos da lista
 arrProducts.forEach((product) => {
     let productCard = new listItem(product)
-    ulProductsList.append(productCard);
+    ulProductsList.prepend(productCard);
 });
 
 

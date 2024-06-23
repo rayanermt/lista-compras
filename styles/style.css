@@ -55,6 +55,7 @@
 .product-list {
     overflow: scroll;
     height: 100%;
+    margin-bottom: 20%;
 }
 
 /* Total itens value */
@@ -100,11 +101,12 @@
 
 /* Form for adding new product */
 .product-form {
-    gap: 2em;
     padding: 2em;
     border-radius: 6px;
     box-shadow: 0 3px 5px grey;
-    position: sticky;
+    position: absolute;
+    right: 0;
+    left: 0;
     width: 70%;
     margin: 0 auto;
     background-color: white;
