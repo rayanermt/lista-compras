@@ -15,7 +15,12 @@
         <h1 class="header__logo">Minha<span class="header__logo-bold">Lista de Compras</span></h1>
     </header>
     <section class="app-body">
-        <button type="button" class="home__add-product-btn">Adicionar produto</button>
+        <div class="ribbon">
+            <button type="button" class="ribbon-btn btn-show-details"><i class="fa-regular fa-eye-slash"></i></button>
+            <button type="button" class="ribbon-btn btn-remove-all"><i class="fa-regular fa-trash-can"></i></button>
+            <button type="button" class=" home__add-product-btn">Adicionar produto</button>
+        </div>
+
         <!-- Formulário escondido para inserir novo produto -->
         
         <form class="product-form hidden">
@@ -51,15 +56,15 @@
             <input type="radio">
             <div class="product-info-container">
                 <h3 class="product-name"></h3>
-                <span class="product-un-price price hidden"></span>
-                <div class="product-card__btn-wrapper">
+                <span class="product-un-price price hidden detail"></span>
+                <div class="product-card__btn-wrapper detail">
                     <button class="btn-item-edit"><i class="fa-solid fa-pen"></i></button>
                     <button class="btn-item-remove"><i class="fa-solid fa-trash"></i></button>
                     <!-- Categoria -->
                 </div>
             </div>
             <div class="product-subtotal-container">
-                <div class="product-quantity-wrapper">
+                <div class="product-quantity-wrapper detail">
                     <button class="btn-quantity" name="-">-</button>
                     <span class="product-quantity">1</span>
                     <button class="btn-quantity" name="+">+</button>

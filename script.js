@@ -4,7 +4,10 @@ const ulProductsList = document.querySelector(".product-list");
 const btnAddProduct = document.querySelector(".home__add-product-btn");
 const formNewProduct = document.querySelector(".product-form");
 const productTemplate = document.querySelector("#li-card-template");
+
 const btnIncrement = document.querySelectorAll(".btn-quantity");
+const btnShowDetails = document.querySelector(".btn-show-details");
+const btnRemoveAll = document.querySelector(".btn-remove-all");
 
 const spnTotalValue = document.querySelector(".total-value");
 let totalValue;
@@ -182,6 +185,21 @@ formNewProduct.addEventListener('submit', (event) => {
     createNewProduct();
     formNewProduct.reset();
     toggleForm();
+});
+
+// Ocultar detalhes de cada item
+btnShowDetails.addEventListener('click', () => {
+    btnShowDetails.firstChild.classList.toggle("fa-eye");
+    ulProductsList.querySelectorAll(".detail")
+                  .forEach((element) => element.classList.toggle("hidden-detail"));
+});
+
+// Remover todos os produtos
+btnRemoveAll.addEventListener('click', () => {
+    if (window.confirm("Remover todos os produtos da lista?")) {
+        localStorage.clear();
+        location.reload();
+    }
 });
 
 document.querySelector("#btn-cancel").addEventListener('click', () => toggleForm());
