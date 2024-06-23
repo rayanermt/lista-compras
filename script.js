@@ -27,6 +27,7 @@ class listItem {
         this.cardElement = productTemplate.content.cloneNode(true),
         this.product = product;
 
+        this.productInfoEl = this.cardElement.querySelector(".product-info-container");
         this.nameEl = this.cardElement.querySelector(".product-name");
         this.quantityEl = this.cardElement.querySelector(".product-quantity");
         this.unPriceEl = this.cardElement.querySelector(".product-un-price");
@@ -74,10 +75,10 @@ function editProduct(listItem) {
 
         listItem.nameEl.toggleAttribute("contentEditable");
         listItem.unPriceEl.toggleAttribute("contentEditable");
-
-        document.querySelector(".product-info-container").addEventListener("keydown", (key) => {
+        listItem.productInfoEl.addEventListener("keydown", (key) => {
             if (key.key == "Enter")
             {
+                console.log(key)
                 listItem.nameEl.removeAttribute("contentEditable");
                 listItem.unPriceEl.removeAttribute("contentEditable");
 
@@ -101,7 +102,6 @@ function removeProduct(listItem) {
 };
 
 function changeQuantity(listItem) {
-    
     let newQuantity = Number(listItem.quantityEl.textContent);
 
     listItem.btnsQuantity.forEach((btn) => {
@@ -176,6 +176,7 @@ btnAddProduct.addEventListener('click', () => {
 formNewProduct.addEventListener('submit', (event) => {
     event.preventDefault();
     createNewProduct();
+    formNewProduct.reset();
     toggleForm();
 });
 
