@@ -71,8 +71,6 @@
 
 .total-price-wrapper {
     font-family: var(--font-main), sans-serif;
-    border-top: 1px solid grey;
-    padding-top: 1.5em;
     display: flex;
     justify-content: space-between;
 
@@ -220,6 +218,14 @@
     word-wrap: break-word;
     flex-grow: 2;
 }
+
+
+.product-info-container > [contenteditable=""] {
+    border: 1px solid var(--color-main-medium);
+    border-radius: 5px;
+    padding: 0.3em;
+}
+
 
 .product-un-price {
     font-size: 14px;

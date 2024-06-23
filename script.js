@@ -16,10 +16,10 @@ function calculateTotal() {
     totalValue = 0;
     arrProducts.forEach((product) => {
         totalValue += product.subTotal;
-    })
+    });
 
     spnTotalValue.textContent = `${totalValue.toFixed(2)}`;
-}
+};
 
 // Template pra criar o card de cada produto
 class listItem {
@@ -47,8 +47,6 @@ class listItem {
             this.subtotalEl.textContent = "0.00";
         }
         
-        
-
         this.btnsQuantity =  this.cardElement.querySelectorAll(".btn-quantity");
         this.btnEdit = this.cardElement.querySelector(".btn-item-edit");
         this.btnRemove = this.cardElement.querySelector(".btn-item-remove");
@@ -65,17 +63,11 @@ class listItem {
         this.subtotalEl.textContent = `${newSubtotal}`;
         return this.subTotal = Number(newSubtotal);
     }
-}
-
-
-//Renderizar todos os produtos da lista
-arrProducts.forEach((product) => {
-    let productCard = new listItem(product)
-    ulProductsList.append(productCard);
-});
+};
 
 // Editar nome e valor do produto
 function editProduct(listItem) {
+
     listItem.btnEdit.addEventListener('click', () => {
         listItem.unPriceEl.classList.remove("hidden");
         listItem.subtotalEl.classList.remove("hidden");
@@ -83,27 +75,22 @@ function editProduct(listItem) {
         listItem.nameEl.toggleAttribute("contentEditable");
         listItem.unPriceEl.toggleAttribute("contentEditable");
 
-        listItem.nameEl.addEventListener("keydown", (key) => {
-            if (key.key == "Enter")//space
+        document.querySelector(".product-info-container").addEventListener("keydown", (key) => {
+            if (key.key == "Enter")
             {
                 listItem.nameEl.removeAttribute("contentEditable");
-                listItem.product.name = product.nameEl.textContent;
-                updateLocalStorage();
-            }
-        });
-
-        listItem.unPriceEl.addEventListener("keydown", (key) => {
-            if (key.key == "Enter")//space
-            {
                 listItem.unPriceEl.removeAttribute("contentEditable");
+
+                listItem.product.name = listItem.nameEl.textContent;
                 listItem.product.unPrice = Number(listItem.unPriceEl.textContent);
-                listItem.product.subTotal = listItem.calculateSubtotal()
-                calculateTotal()
+                listItem.product.subTotal = listItem.calculateSubtotal();
+                
+                calculateTotal();
                 updateLocalStorage();
             }
         });
-    })
-}
+    });
+};
 
 // remover produto da lista
 function removeProduct(listItem) {
@@ -111,7 +98,7 @@ function removeProduct(listItem) {
         const index = arrProducts.findIndex(element => element.name == listItem.product.name)
         arrProducts = arrProducts.splice(1, index);
     });
-}
+};
 
 function changeQuantity(listItem) {
     
@@ -137,7 +124,7 @@ function changeQuantity(listItem) {
             updateLocalStorage();
         });
     });
-}
+};
 
 // Atualizar o localStorage
 function updateLocalStorage() {
@@ -172,6 +159,13 @@ function createNewProduct ( ) {
     arrProducts.push(newProduct);
     updateLocalStorage();
 };
+
+//Renderizar todos os produtos da lista
+arrProducts.forEach((product) => {
+    let productCard = new listItem(product)
+    ulProductsList.append(productCard);
+});
+
 
 // Mostra o formulário ao clicar em "Adicionar produto"
 btnAddProduct.addEventListener('click', () => {
