@@ -218,6 +218,12 @@
     }
 }
 
+#name-error-message {
+    font-size: 0.8em;
+    margin-top: 1em;
+    color: var(--color-alert);
+}
+
 .form__field-wrapper {
     display: flex;
     align-items: center;

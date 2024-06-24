@@ -9,6 +9,7 @@ const emptyListMessage = document.querySelector(".empty-list-message");
 const inputName = document.querySelector("#input-name");
 const inputUnPrice = document.querySelector("#input-un-price");
 const inputQuantity = document.querySelector("#input-quantity");
+const nameErrorMessage = document.querySelector("#name-error-message");
 
 const btnIncrement = document.querySelectorAll(".btn-quantity");
 const btnShowDetails = document.querySelector(".btn-show-details");
@@ -141,7 +142,6 @@ function changeQuantity(listItem) {
 
 // Atualizar o localStorage
 function updateLocalStorage() {
-    
     if (arrProducts.length > 0) {
         emptyListMessage.classList.add("hidden");
     } else {
@@ -155,13 +155,14 @@ function updateLocalStorage() {
 
 // Alternar visibilidade do formulário 
 function toggleForm () {
+    nameErrorMessage.classList.add("hidden");
+
     formNewProduct.classList.toggle("hidden");
     document.querySelector(".dark-overlay").classList.toggle("hidden");
 };
 
 // Cria e adiciona um novo objeto de produto ao vetor com todos os produtos.
 function createNewProduct ( ) {
-    if (formErrorHandling() == 0);
     const newProduct = {
         name: inputName.value,
         unPrice: parseFloat([inputUnPrice.value]),
@@ -175,14 +176,6 @@ function createNewProduct ( ) {
     updateLocalStorage();
 };
 
-function formErrorHandling() {
-    if (inputName.value == "") {
-        inputName.append(`<p class="form-erro">O nome do produto é obrigatório.</p>`)
-        return 1;
-    }
-
-    return 0; 
-};
 
 //Renderizar todos os produtos da lista
 arrProducts.forEach((product) => {
@@ -217,6 +210,10 @@ btnRemoveAll.addEventListener('click', () => {
         localStorage.clear();
         location.reload();
     }
+});
+
+inputName.addEventListener("invalid", () => {
+     nameErrorMessage.classList.remove("hidden")
 });
 
 document.querySelector("#btn-cancel").addEventListener('click', () => toggleForm());

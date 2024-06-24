@@ -29,6 +29,7 @@
                 <div class="form__info-wrapper">
                     <label for="product-name">Nome:</label>
                     <input type="text" id="input-name" required>
+                    <span id="name-error-message" class="hidden">Por favor, escreva o nome do produto.</span>
                     <br>
                     <div class="form__field-wrapper">
                         <label for="product-un-price" >Preço unitário:</label><br>
@@ -36,7 +37,7 @@
                     </div>
                     <div class="form__field-wrapper">
                         <label for="product-quantity">Quantidade:</label><br>
-                        <input type="number" id="input-quantity" step="1" placeholder="1" min="1" required>
+                        <input type="number" id="input-quantity" value="1" step="1" min="1" required>
                     </div>
                  </div>
             </div>
