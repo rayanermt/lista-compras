@@ -4,6 +4,7 @@ const ulProductsList = document.querySelector(".product-list");
 const btnAddProduct = document.querySelector(".home__add-product-btn");
 const formNewProduct = document.querySelector(".product-form");
 const productTemplate = document.querySelector("#li-card-template");
+const emptyListMessage = document.querySelector(".empty-list-message");
 
 const btnIncrement = document.querySelectorAll(".btn-quantity");
 const btnShowDetails = document.querySelector(".btn-show-details");
@@ -11,6 +12,7 @@ const btnRemoveAll = document.querySelector(".btn-remove-all");
 
 const spnTotalValue = document.querySelector(".total-value");
 let totalValue;
+
 
 calculateTotal();
 
@@ -113,7 +115,7 @@ function changeQuantity(listItem) {
 
     listItem.btnsQuantity.forEach((btn) => {
         btn.addEventListener('click', () => {
-            debugger
+
             if(btn.name == "-"  && listItem.product.quantity > 1) {
                 newQuantity--;
                 listItem.product.quantity--;
@@ -140,6 +142,9 @@ function updateLocalStorage() {
     localStorage.setItem("products", JSON.stringify(arrProducts));
     localStorage.setItem("totalValue", totalValue)
 
+    if (arrProducts.length > 0) {
+        emptyListMessage.classList.add("hidden");
+    }
 };
 
 // Alternar visibilidade do formulário 

@@ -17,8 +17,8 @@
     <section class="app-body">
         <div class="ribbon">
             <button type="button" class="ribbon-btn btn-show-details"><i class="fa-regular fa-eye-slash"></i></button>
-            <button type="button" class="ribbon-btn btn-remove-all"><i class="fa-regular fa-trash-can"></i></button>
             <button type="button" class=" home__add-product-btn">Adicionar produto</button>
+            <button type="button" class="ribbon-btn btn-remove-all"><i class="fa-regular fa-trash-can"></i></button>
         </div>
 
         <!-- Formulário escondido para inserir novo produto -->
@@ -45,7 +45,12 @@
                 <button type="reset" id="btn-cancel">Cancelar</button>
             </div>
         </form>
-        <ul class="product-list"></ul>
+        <ul class="product-list">
+            <li class="empty-list-message">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <h3>Seu carrinho está vazio!</h3>
+            </li>
+        </ul>
 
  
     </section>
@@ -53,7 +58,7 @@
     <!-- Mostra os valores totais -->
     <template id="li-card-template">
         <li class="product-card">
-            <input type="radio">
+            <input type="checkbox">
             <div class="product-info-container">
                 <h3 class="product-name"></h3>
                 <span class="product-un-price price hidden detail"></span>
