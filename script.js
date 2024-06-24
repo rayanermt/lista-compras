@@ -6,6 +6,10 @@ const formNewProduct = document.querySelector(".product-form");
 const productTemplate = document.querySelector("#li-card-template");
 const emptyListMessage = document.querySelector(".empty-list-message");
 
+const inputName = document.querySelector("#input-name");
+const inputUnPrice = document.querySelector("#input-un-price");
+const inputQuantity = document.querySelector("#input-quantity");
+
 const btnIncrement = document.querySelectorAll(".btn-quantity");
 const btnShowDetails = document.querySelector(".btn-show-details");
 const btnRemoveAll = document.querySelector(".btn-remove-all");
@@ -14,7 +18,7 @@ const spnTotalValue = document.querySelector(".total-value");
 let totalValue;
 
 
-calculateTotal();
+updateLocalStorage();
 
 // Calulcar valor total dos produtos
 function calculateTotal() {
@@ -138,13 +142,15 @@ function changeQuantity(listItem) {
 // Atualizar o localStorage
 function updateLocalStorage() {
     
+    if (arrProducts.length > 0) {
+        emptyListMessage.classList.add("hidden");
+    } else {
+        emptyListMessage.classList.remove("hidden");
+    }
     calculateTotal();
     localStorage.setItem("products", JSON.stringify(arrProducts));
     localStorage.setItem("totalValue", totalValue)
 
-    if (arrProducts.length > 0) {
-        emptyListMessage.classList.add("hidden");
-    }
 };
 
 // Alternar visibilidade do formulário 
@@ -155,10 +161,7 @@ function toggleForm () {
 
 // Cria e adiciona um novo objeto de produto ao vetor com todos os produtos.
 function createNewProduct ( ) {
-    const inputName = document.querySelector("#input-name");
-    const inputUnPrice = document.querySelector("#input-un-price");
-    const inputQuantity = document.querySelector("#input-quantity");
-
+    if (formErrorHandling() == 0);
     const newProduct = {
         name: inputName.value,
         unPrice: parseFloat([inputUnPrice.value]),
@@ -170,6 +173,15 @@ function createNewProduct ( ) {
     ulProductsList.prepend(newListItem);
     arrProducts.push(newProduct);
     updateLocalStorage();
+};
+
+function formErrorHandling() {
+    if (inputName.value == "") {
+        inputName.append(`<p class="form-erro">O nome do produto é obrigatório.</p>`)
+        return 1;
+    }
+
+    return 0; 
 };
 
 //Renderizar todos os produtos da lista
