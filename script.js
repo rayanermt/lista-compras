@@ -21,16 +21,6 @@ let totalValue;
 
 updateLocalStorage();
 
-// Calulcar valor total dos produtos
-function calculateTotal() {
-    totalValue = 0;
-    arrProducts.forEach((product) => {
-        totalValue += product.subTotal;
-    });
-
-    spnTotalValue.textContent = `${totalValue.toFixed(2)}`;
-};
-
 // Template pra criar o card de cada produto
 class listItem {
     constructor (product) {
@@ -47,15 +37,11 @@ class listItem {
         this.quantityEl.textContent = `${product.quantity}`;
 
         // Ocultas informações vazias automaticamente
-        if (isFinite(product.unPrice)) {
-            console.log("não nulo")
+        if (product.unPrice > 0) {
             this.unPriceEl.textContent = `${product.unPrice}`;
             this.calculateSubtotal();
             this.unPriceEl.classList.remove("hidden");
             this.subtotalEl.classList.remove("hidden");
-        } else {
-            this.unPriceEl.textContent = "0.00";
-            this.subtotalEl.textContent = "0.00";
         }
         
         this.btnsQuantity =  this.cardElement.querySelectorAll(".btn-quantity");
@@ -76,6 +62,16 @@ class listItem {
     }
 };
 
+// Calulcar valor total dos produtos
+function calculateTotal() {
+    totalValue = 0;
+    arrProducts.forEach((product) => {
+        totalValue += product.subTotal;
+    });
+
+    spnTotalValue.textContent = `${totalValue.toFixed(2)}`;
+};
+
 // Editar nome e valor do produto
 function editProduct(listItem) {
 
@@ -93,7 +89,7 @@ function editProduct(listItem) {
                 listItem.unPriceEl.removeAttribute("contentEditable");
 
                 listItem.product.name = listItem.nameEl.textContent;
-                listItem.product.unPrice = Number(listItem.unPriceEl.textContent);
+                listItem.product.unPrice = Number(listItem.unPriceEl.textContent.replace(",", "."));
                 listItem.product.subTotal = listItem.calculateSubtotal();
                 
                 calculateTotal();
